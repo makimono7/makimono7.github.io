@@ -8,10 +8,28 @@
     <link rel="stylesheet" href="bootstrap.min.css">
   </head>
   <body>
-    <h1>Hello, world!</h1>
-		<div class="countdown"></div>
+	<center><h1 class="countdown">0:00</h1>
 
-		<button type="button" class="btn btn-lg btn-primary" onclick='initTimer()'>Primary</button>
+	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("0:05")'>TEST</button>
+	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("1:30")'>1:30</button>
+	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("2:00")'>2:00</button>
+	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("3:00")'>3:00</button>
+	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("5:00")'>5:00</button>
+
+
+	</center>
+	<style>
+		body{
+			background: #2C2F33;
+		}
+		h1 {
+			color: white;
+		}
+		button {
+			margin-right: 20px;
+			width: 150px;
+		}
+	</style>
 	<script src="jquery-1.12.4.min.js"></script>
 
 	<script>
@@ -24,7 +42,6 @@ var interval = setInterval(function() {
   var timer = timer2.split(':');
   var minutes = parseInt(timer[0], 10);
   var seconds = parseInt(timer[1], 10);
-  seconds--;
   minutes = (seconds < 0) ? --minutes : minutes;
   if (minutes < 0) {
 	clearInterval(interval);
@@ -35,8 +52,11 @@ var interval = setInterval(function() {
   seconds = (seconds < 10) ? '0' + seconds : seconds;
 
   $('.countdown').html(minutes + ':' + seconds);
+  seconds--;
   timer2 = minutes + ':' + seconds;
+  
   }
+
 }, 1000);
 }
 
