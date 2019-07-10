@@ -50,18 +50,15 @@ function sendNotification () {
                 alert( "Notification failed!" );
                 return;
             }
-			options = {
-				title: 'Times Up!',
-				message: 'Time to lift!',
-				icon:'https://cdn.discordapp.com/emojis/356677866005594112.png',
-				clickCallback: function () {
-					alert('do something when clicked on notification');
-				}
+			var options = {
+				body: 'Time to lift!',
+				icon: 'https://cdn.discordapp.com/emojis/356677866005594112.png',
+				vibrate: [300, 100, 400]
 			}
             navigator.serviceWorker.ready.then( function( registration )
             {
 				console.log('SEND');
-                registration.showNotification( options );
+                registration.showNotification('Times Up!', options );
             } );
 
 
