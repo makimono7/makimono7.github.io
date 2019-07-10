@@ -10,11 +10,11 @@
   <body>
 	<center><h1 class="countdown">0:00</h1>
 
-	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("0:05")'>TEST</button>
 	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("1:30")'>1:30</button>
 	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("2:00")'>2:00</button>
 	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("3:00")'>3:00</button>
 	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("5:00")'>5:00</button>
+	<button type="button" class="btn btn-lg btn-default" onclick='reset()'>Reset</button>
 
 
 	</center>
@@ -37,11 +37,16 @@
 	<script src="jquery-1.12.4.min.js"></script>
 
 	<script>
+var interval;
 
+function reset() {
+clearInterval(interval);
+$('.countdown').html('0:00');
+}
 
 function initTimer(time) {
-var timer2 = "0:05";
-var interval = setInterval(function() {
+var timer2 = time;
+interval = setInterval(function() {
 
   var timer = timer2.split(':');
   var minutes = parseInt(timer[0], 10);
@@ -76,7 +81,7 @@ function sendNotification () {
             }
 			var options = {
 				body: 'Time to lift!',
-				badge: 'https://i.imgur.com/S1HpqK7.png',
+				badge: 'https://cdn.discordapp.com/emojis/356677866005594112.png',
 				icon: 'https://cdn.discordapp.com/emojis/356677866005594112.png',
 				vibrate: [300, 100, 400]
 			}
