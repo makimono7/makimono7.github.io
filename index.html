@@ -27,7 +27,7 @@ sendNotification({
 });
 }
 
-var timer2 = "0:03";
+var timer2 = "0:05";
 var interval = setInterval(function() {
 
   var timer = timer2.split(':');
@@ -39,7 +39,8 @@ var interval = setInterval(function() {
 	clearInterval(interval);
 	$('.countdown').html('0:00');
 	console.log('done!')
-	send();
+	//send();
+	$('#mynotify').click();
   } else {
   seconds = (seconds < 0) ? 59 : seconds;
   seconds = (seconds < 10) ? '0' + seconds : seconds;
