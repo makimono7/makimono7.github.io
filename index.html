@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lifting Timer</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+		<div class="countdown"></div>
+
+		<button type="button" class="btn btn-lg btn-primary" onclick='send()'>Primary</button>
+    <script src="jquery-1.12.4.min.js"></script>
+	
+
+	<script>
+function send() {
+console.log('test');
+sendNotification({
+  title: 'New Notification',
+  message: 'Your message goes here',
+  icon:'https://cdn2.iconfinder.com/data/icons/mixed-rounded-flat-icon/512/megaphone-64.png',
+  clickCallback: function () {
+    alert('do something when clicked on notification');
+  }
+});
+}
+
+var timer2 = "5:01";
+var interval = setInterval(function() {
+  var timer = timer2.split(':');
+  var minutes = parseInt(timer[0], 10);
+  var seconds = parseInt(timer[1], 10);
+
+  minutes = (seconds < 0) ? --minutes : minutes;
+  if (minutes < 0) clearInterval(interval);
+  seconds = (seconds < 0) ? 59 : seconds;
+  seconds = (seconds < 10) ? '0' + seconds : seconds;
+
+  $('.countdown').html(minutes + ':' + seconds);
+  timer2 = minutes + ':' + seconds;
+}, 1000);
+
+function sendNotification (data) {
+    if (data == undefined || !data) { return false }
+    var title = (data.title === undefined) ? 'Notification' : data.title
+    var clickCallback = data.clickCallback
+    var message = (data.message === undefined) ? 'null' : data.message
+    var icon = (data.icon === undefined) ? 'https://cdn2.iconfinder.com/data/icons/mixed-rounded-flat-icon/512/megaphone-64.png' : data.icon
+    var sendNotification = function (){
+        var notification = new Notification(title, {
+            icon: icon,
+            body: message
+        })
+        if (clickCallback !== undefined) {
+            notification.onclick = function () {
+                clickCallback()
+                notification.close()
+            }
+        }
+    }
+
+    if (!window.Notification) {
+        return false
+    } else {
+        if (Notification.permission === 'default') {
+            Notification.requestPermission(function (p) {
+                if (p !== 'denied') {
+                    sendNotification()
+                }
+            })
+        } else {
+            sendNotification()
+        }
+    }
+}
+</script>
+
+  </body>
+</html>
