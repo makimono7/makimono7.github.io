@@ -11,7 +11,7 @@
     <h1>Hello, world!</h1>
 		<div class="countdown"></div>
 
-		<button type="button" class="btn btn-lg btn-primary" onclick='send()'>Primary</button>
+		<button id='mynotify' type="button" class="btn btn-lg btn-primary" >Primary</button>
     <script src="jquery-1.12.4.min.js"></script>
 	
 
@@ -83,6 +83,30 @@ function sendNotification (data) {
         }
     }
 }
+
+
+$( function()
+{
+    navigator.serviceWorker.register('sw.js');
+
+    $( "#mynotify" ).click( function()
+    {
+        Notification.requestPermission().then( function( permission )
+        {
+            if ( permission != "granted" )
+            {
+                alert( "Notification failed!" );
+                return;
+            }
+
+            navigator.serviceWorker.ready.then( function( registration )
+            {
+                registration.showNotification( "Hello world", { body:"Here is the body!" } );
+            } );
+
+        } );
+    } );
+} );
 </script>
 
   </body>
