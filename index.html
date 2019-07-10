@@ -10,12 +10,16 @@
   <body>
 	<center><h1 class="countdown">0:00</h1>
 
+	<div id='dots'>
+	</div>
+	
 	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("1:30")'>1:30</button>
 	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("2:00")'>2:00</button>
 	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("3:00")'>3:00</button>
 	<button type="button" class="btn btn-lg btn-primary" onclick='initTimer("5:00")'>5:00</button>
-	<button type="button" class="btn btn-lg btn-default" onclick='reset()'>Reset</button>
 
+	<button type="button" class="btn btn-lg btn-success" onclick='setClear()'>Clear Sets</button>
+	<button type="button" class="btn btn-lg btn-default" onclick='reset()'>Reset Timer</button>
 
 	</center>
 	<style>
@@ -27,16 +31,37 @@
 			color: white;
 			font-size: 50px;
 		}
+		#dots {
+			height: 40px;
+		}
 		button {
 			margin-right: 20px;
 			width: 300px;
 			height: 50px;
-			margin-top: 40px;
+			margin-bottom: 40px !important;
 		}
+		.dot {
+		display: inline-block;
+  background: #f0ad4e;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, .2);
+  margin-bottom: 15px;
+}
+
 	</style>
 	<script src="jquery-1.12.4.min.js"></script>
 
 	<script>
+	
+	function setUp() {
+		$('#dots').append("<div class='dot'></div>");
+	}
+	function setClear() {
+		$('#dots').html('');
+	}
+	
 var interval;
 
 function reset() {
@@ -45,9 +70,9 @@ $('.countdown').html('0:00');
 }
 
 function initTimer(time) {
+setUp();
 var timer2 = time;
 interval = setInterval(function() {
-
   var timer = timer2.split(':');
   var minutes = parseInt(timer[0], 10);
   var seconds = parseInt(timer[1], 10);
@@ -83,7 +108,7 @@ function sendNotification () {
 				body: 'Time to lift!',
 				badge: 'https://i.imgur.com/S1HpqK7.png',
 				icon: 'https://cdn.discordapp.com/emojis/356677866005594112.png',
-				vibrate: [400, 100, 400, 100, 400, 100, 400, 100, 400]
+				vibrate: [200, 100, 200, 100, 200, 100, 200]
 			}
             navigator.serviceWorker.ready.then( function( registration )
             {
