@@ -100,9 +100,10 @@ $( function()
             }
 
 		
-	    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                registrations[0].showNotification( "Hello world", { body:"Here is the body!" } );
-            });
+            navigator.serviceWorker.ready.then( function( registration )
+            {
+                registration.showNotification( "Hello world", { body:"Here is the body!" } );
+            } );
 
 
         } );
