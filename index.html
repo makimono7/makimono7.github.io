@@ -11,22 +11,13 @@
     <h1>Hello, world!</h1>
 		<div class="countdown"></div>
 
-		<button id='mynotify' type="button" class="btn btn-lg btn-primary" >Primary</button>
+		<button type="button" class="btn btn-lg btn-primary" onclick='initTimer()'>Primary</button>
 	<script src="jquery-1.12.4.min.js"></script>
 
 	<script>
-function send() {
-console.log('test');
-sendNotification({
-  title: 'Times Up!',
-  message: 'Time to lift!',
-  icon:'https://cdn.discordapp.com/emojis/356677866005594112.png',
-  clickCallback: function () {
-    alert('do something when clicked on notification');
-  }
-});
-}
 
+
+function initTimer(time) {
 var timer2 = "0:05";
 var interval = setInterval(function() {
 
@@ -38,9 +29,7 @@ var interval = setInterval(function() {
   if (minutes < 0) {
 	clearInterval(interval);
 	$('.countdown').html('0:00');
-	console.log('done!')
-	//send();
-	$('#mynotify').click();
+	sendNotification();
   } else {
   seconds = (seconds < 0) ? 59 : seconds;
   seconds = (seconds < 10) ? '0' + seconds : seconds;
@@ -49,48 +38,11 @@ var interval = setInterval(function() {
   timer2 = minutes + ':' + seconds;
   }
 }, 1000);
-
-function sendNotification (data) {
-    if (data == undefined || !data) { return false }
-    var title = (data.title === undefined) ? 'Notification' : data.title
-    var clickCallback = data.clickCallback
-    var message = (data.message === undefined) ? 'null' : data.message
-    var icon = (data.icon === undefined) ? 'https://cdn2.iconfinder.com/data/icons/mixed-rounded-flat-icon/512/megaphone-64.png' : data.icon
-    var sendNotification = function (){
-        var notification = new Notification(title, {
-            icon: icon,
-            body: message
-        })
-        if (clickCallback !== undefined) {
-            notification.onclick = function () {
-                clickCallback()
-                notification.close()
-            }
-        }
-    }
-
-    if (!window.Notification) {
-        return false
-    } else {
-        if (Notification.permission === 'default') {
-            Notification.requestPermission(function (p) {
-                if (p !== 'denied') {
-                    sendNotification()
-                }
-            })
-        } else {
-            sendNotification()
-        }
-    }
 }
 
+function sendNotification () {
+		navigator.serviceWorker.register('sw.js');
 
-$( function()
-{
-    navigator.serviceWorker.register('sw.js');
-
-    $( "#mynotify" ).click( function()
-    {
         Notification.requestPermission().then( function( permission )
         {
             if ( permission != "granted" )
@@ -98,17 +50,25 @@ $( function()
                 alert( "Notification failed!" );
                 return;
             }
-
-		
+			options = {
+				title: 'Times Up!',
+				message: 'Time to lift!',
+				icon:'https://cdn.discordapp.com/emojis/356677866005594112.png',
+				clickCallback: function () {
+					alert('do something when clicked on notification');
+				}
+			}
             navigator.serviceWorker.ready.then( function( registration )
             {
-                registration.showNotification( "Hello world", { body:"Here is the body!" } );
+				console.log('SEND');
+                registration.showNotification( options );
             } );
 
 
         } );
-    } );
-} );
+}
+
+
 </script>
 
   </body>
