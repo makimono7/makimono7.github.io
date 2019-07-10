@@ -12,7 +12,7 @@
 		<div class="countdown"></div>
 
 		<button type="button" class="btn btn-lg btn-primary" onclick='send()'>Primary</button>
-    <script src="1jquery-1.12.4.min.js"></script>
+    <script src="jquery-1.12.4.min.js"></script>
 	
 
 	<script>
@@ -28,19 +28,26 @@ sendNotification({
 });
 }
 
-var timer2 = "5:01";
+var timer2 = "0:03";
 var interval = setInterval(function() {
+
   var timer = timer2.split(':');
   var minutes = parseInt(timer[0], 10);
   var seconds = parseInt(timer[1], 10);
-
+  seconds--;
   minutes = (seconds < 0) ? --minutes : minutes;
-  if (minutes < 0) clearInterval(interval);
+  if (minutes < 0) {
+	clearInterval(interval);
+	$('.countdown').html('0:00');
+	console.log('done!')
+	send();
+  } else {
   seconds = (seconds < 0) ? 59 : seconds;
   seconds = (seconds < 10) ? '0' + seconds : seconds;
 
   $('.countdown').html(minutes + ':' + seconds);
   timer2 = minutes + ':' + seconds;
+  }
 }, 1000);
 
 function sendNotification (data) {
